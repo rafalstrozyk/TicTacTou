@@ -7,6 +7,66 @@ var ticTacTouController = (function() {
     ];
     var players = ['X', 'O'];
     var player = players[0];
+    var win = false;
+
+    var winnerBoards;
+
+    const winner = function() {
+        winnerBoards.forEach(function(el,index,array) {
+            console.log(player)
+            if(
+                el[0] === player &&
+                el[1] === player &&
+                el[2] === player) {
+                win = true;
+            }
+        });
+    }
+
+    const winTracking = function() {
+        winnerBoards = [
+            [
+                board[0],
+                board[1],
+                board[2]
+            ],
+            [
+                board[3],
+                board[4],
+                board[5]
+            ],
+            [
+                board[6],
+                board[7],
+                board[8]
+            ],
+            [
+                board[0],
+                board[3],
+                board[6]
+            ],
+            [
+                board[1],
+                board[4],
+                board[7]
+            ],
+            [
+                board[2],
+                board[5],
+                board[8]
+            ],
+            [
+                board[0],
+                board[4],
+                board[8]
+            ],
+            [
+                board[2],
+                board[4],
+                board[6]
+            ]
+        ]
+    };
 
     return {
 
@@ -19,6 +79,17 @@ var ticTacTouController = (function() {
         },
        player: function() {
            return player;
+       },
+       boardStatus: function() {
+           winTracking();
+           winner();
+       },
+       updateBoard: function(index) {
+           board[index] = player;
+            console.log(board);
+       },
+       winStatus: function() {
+           return win;
        }
     };
 
@@ -35,7 +106,8 @@ var UIcontroller = (function(TTTCtrl) {
         six: 'six',
         seven: 'seven',
         eight: 'eight',
-        nine: 'nine'
+        nine: 'nine',
+        resetBtn: 'btn-reset'
     };
 
     return {
@@ -58,6 +130,7 @@ var UIcontroller = (function(TTTCtrl) {
                 seven: document.getElementById(DOMstrings.seven),
                 eight: document.getElementById(DOMstrings.eight),
                 nine: document.getElementById(DOMstrings.nine),
+                resetBtn: document.querySelector('.'+DOMstrings.resetBtn)
             }
         },
         getDOMstrings: function() {
@@ -77,38 +150,88 @@ var controller = (function(UICtrl,TTTCtrl) {
     var setupEventListeners = function() {
         var DOM = UICtrl.getDOMstrings();
         var input = UICtrl.getInput();
-        var status;
-        
+        var win = TTTCtrl.winStatus();
 
-        document.getElementById(DOM.one).addEventListener('click', function() {
-            UICtrl.boardStatus(input.one, TTTCtrl.player());
-            // input.one.textContent = TTTCtrl.player();
-            // status = UICtrl.getStatus(input.one);
-            // console.log(status);
+        input.one.addEventListener('click', function() {
+            if(!win) {
+                TTTCtrl.updateBoard(0);
+                UICtrl.boardStatus(input.one, TTTCtrl.player());
+                TTTCtrl.boardStatus();
+                win = TTTCtrl.winStatus();
+            }
+            
         });
-        document.getElementById(DOM.two).addEventListener('click', function() {
-            UICtrl.boardStatus(input.two, TTTCtrl.player());
+        input.two.addEventListener('click', function() {
+            if(!win) {
+                TTTCtrl.updateBoard(1);
+                UICtrl.boardStatus(input.two, TTTCtrl.player());
+                TTTCtrl.boardStatus();
+                win = TTTCtrl.winStatus();
+            }
+            
         });
-        document.getElementById(DOM.three).addEventListener('click', function() {
-            UICtrl.boardStatus(input.three, TTTCtrl.player());   
+        input.three.addEventListener('click', function() {
+            if(!win) {
+                TTTCtrl.updateBoard(2);
+                UICtrl.boardStatus(input.three, TTTCtrl.player());   
+                TTTCtrl.boardStatus();
+                win = TTTCtrl.winStatus();
+            }
+            
         });
-        document.getElementById(DOM.four).addEventListener('click', function() {
-            UICtrl.boardStatus(input.four, TTTCtrl.player());
+        input.four.addEventListener('click', function() {
+            if(!win) {
+                TTTCtrl.updateBoard(3);
+                UICtrl.boardStatus(input.four, TTTCtrl.player());
+                TTTCtrl.boardStatus();
+                win = TTTCtrl.winStatus();
+            }
+            
         });
-        document.getElementById(DOM.five).addEventListener('click', function() {
-            UICtrl.boardStatus(input.five, TTTCtrl.player());
+        input.five.addEventListener('click', function() {
+            if(!win) {
+                TTTCtrl.updateBoard(4);
+                UICtrl.boardStatus(input.five, TTTCtrl.player());
+                TTTCtrl.boardStatus();
+                win = TTTCtrl.winStatus();
+            }
+            
         });
-        document.getElementById(DOM.six).addEventListener('click', function() {
-            UICtrl.boardStatus(input.six, TTTCtrl.player());
+        input.six.addEventListener('click', function() {
+            if(!win) {
+                TTTCtrl.updateBoard(5);
+                UICtrl.boardStatus(input.six, TTTCtrl.player());
+                TTTCtrl.boardStatus();
+                win = TTTCtrl.winStatus();
+            }
+            
         });
-        document.getElementById(DOM.seven).addEventListener('click', function() {
-            UICtrl.boardStatus(input.seven, TTTCtrl.player());   
+        input.seven.addEventListener('click', function() {
+            if(!win) {
+                TTTCtrl.updateBoard(6);
+                UICtrl.boardStatus(input.seven, TTTCtrl.player());  
+                TTTCtrl.boardStatus();
+                win = TTTCtrl.winStatus();
+            }
+             
         });
-        document.getElementById(DOM.eight).addEventListener('click', function() {
-            UICtrl.boardStatus(input.eight, TTTCtrl.player());   
+        input.eight.addEventListener('click', function() {
+            if(!win) {
+                TTTCtrl.updateBoard(7);
+                UICtrl.boardStatus(input.eight, TTTCtrl.player());
+                TTTCtrl.boardStatus();
+                win = TTTCtrl.winStatus();
+            }
+               
         });
-        document.getElementById(DOM.nine).addEventListener('click', function() {
-            UICtrl.boardStatus(input.nine, TTTCtrl.player());
+        input.nine.addEventListener('click', function() {
+            if(!win) {
+                TTTCtrl.updateBoard(8);
+                UICtrl.boardStatus(input.nine, TTTCtrl.player());
+                TTTCtrl.boardStatus();
+                win = TTTCtrl.winStatus();
+            }
+            
         });
 
     };
@@ -123,7 +246,3 @@ var controller = (function(UICtrl,TTTCtrl) {
 })(UIcontroller,ticTacTouController);
 
 controller.init();
-
-// document.getElementById('one').addEventListener('click', function() {
-//     console.log(document.getElementById('one').textContent);
-// });
