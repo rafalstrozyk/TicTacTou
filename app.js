@@ -70,6 +70,16 @@ const ticTacTouController = ( () => {
         });
     }
 
+    newGame = () => {
+        board = [
+            '', '', '',
+            '', '', '',
+            '', '', ''
+        ];
+        win = false;
+        player = players[0];
+    };
+
     return {
         boardUpdate: (index) => {
             if(board[index] === '') {
@@ -77,7 +87,6 @@ const ticTacTouController = ( () => {
                 winnerChecking();
                 actualPlayer();
             }
-            console.log(board);
         },
         player: () => {
 
@@ -85,12 +94,19 @@ const ticTacTouController = ( () => {
         },
         win: () => {
             return win;
+        },
+        newGame: () => {
+            return newGame();
         }
-    }
+    };
 
 })();
 
 const UIcontroller = ( (TTTCtrl) => {
+
+    const DOMclassesAndId = {
+        resetButon: 'btn-reset'
+    };
 
     const DOMBoardArray = ['one', 'two', 'three',
                             'four', 'five', 'six', 
@@ -106,7 +122,17 @@ const UIcontroller = ( (TTTCtrl) => {
         document.getElementById('winner').textContent = 'Winner: ' + player;
     }
 
+    newGameUI = () => {
+        DOMBoardArray.forEach((domElem) => {
+            document.getElementById(domElem).textContent = '';
+            document.getElementById('winner').textContent = 'Winner: '
+        });
+    };
+
     return {
+        DOMclassesAndId: () => {
+            return DOMclassesAndId;
+        },
         DOMArrayStrings: () => {
             return DOMBoardArray;
         },
@@ -115,6 +141,9 @@ const UIcontroller = ( (TTTCtrl) => {
         },
         winnerUI: (player) => {
             winnerUI(player);
+        },
+        newGameUI: () => {
+            newGameUI();
         }
     };
 
@@ -123,6 +152,7 @@ const UIcontroller = ( (TTTCtrl) => {
 const controller = ( (UICtrl,TTTCtrl) => {
 
     DOMArrayStrings = UICtrl.DOMArrayStrings();
+    DOMclassesAndId = UICtrl.DOMclassesAndId();
 
     const winerController = DOMArrayStrings.forEach((domElem, index) => {
         document.getElementById(domElem).addEventListener('click', () => {
@@ -144,9 +174,12 @@ const controller = ( (UICtrl,TTTCtrl) => {
             } else {
                 UICtrl.winnerUI(player);
             }
-            
+        });  
+
+        document.getElementById(DOMclassesAndId.resetButon).addEventListener('click', () => {
+            TTTCtrl.newGame();
+            UICtrl.newGameUI();
         });
-        
     };
 
     return {
