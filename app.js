@@ -1,30 +1,23 @@
-var ticTacTouController = (function() {
-
-    var board = [
+const ticTacTouController = ( () => {
+    let board = [
         '', '', '',
         '', '', '',
         '', '', ''
     ];
-    var players = ['X', 'O'];
-    var player = players[0];
-    var win = false;
+    const players = ['X', 'O'];
+    let player = players[0];
+    let win = false;
 
-    var winnerBoards;
+    actualPlayer = () => {
+        if(player === 'X') {
+            player = players[1];
+        } else {
+            player = players[0];
+        }
+    };
 
-    const winner = function() {
-        winnerBoards.forEach(function(el,index,array) {
-            console.log(player)
-            if(
-                el[0] === player &&
-                el[1] === player &&
-                el[2] === player) {
-                win = true;
-            }
-        });
-    }
-
-    const winTracking = function() {
-        winnerBoards = [
+    winnerChecking = () => {
+        let winnerBoards = [
             [
                 board[0],
                 board[1],
@@ -65,184 +58,103 @@ var ticTacTouController = (function() {
                 board[4],
                 board[6]
             ]
-        ]
-    };
+        ];
+        winnerBoards.forEach((el) => {
+            if(
+                el[0] === player &&
+                el[1] === player &&
+                el[2] === player) {
+                win = true;
+                actualPlayer();
+            }
+        });
+    }
 
     return {
-
-        whichPlayer: function() {
-            if(player === 'X') {
-                player = players[1];
-            } else {
-                player = players[0];
+        boardUpdate: (index) => {
+            if(board[index] === '') {
+                board[index] = player;
+                winnerChecking();
+                actualPlayer();
             }
-        },
-       player: function() {
-           return player;
-       },
-       boardStatus: function() {
-           winTracking();
-           winner();
-       },
-       updateBoard: function(index) {
-           board[index] = player;
             console.log(board);
-       },
-       winStatus: function() {
-           return win;
-       }
-    };
+        },
+        player: () => {
+
+            return player;
+        },
+        win: () => {
+            return win;
+        }
+    }
 
 })();
 
-var UIcontroller = (function(TTTCtrl) {
+const UIcontroller = ( (TTTCtrl) => {
 
-    var DOMstrings = {
-        one: 'one',
-        two: 'two',
-        three: 'three',
-        four: 'four',
-        five: 'five',
-        six: 'six',
-        seven: 'seven',
-        eight: 'eight',
-        nine: 'nine',
-        resetBtn: 'btn-reset'
-    };
+    const DOMBoardArray = ['one', 'two', 'three',
+                            'four', 'five', 'six', 
+                            'seven', 'eight', 'nine'];
+
+    boardMovement = (domElem) => {
+        if(document.getElementById(domElem).textContent === '') {
+            document.getElementById(domElem).textContent = TTTCtrl.player();
+        } 
+    }
+
+    winnerUI = (player) => {
+        document.getElementById('winner').textContent = 'Winner: ' + player;
+    }
 
     return {
-        getStatus: function(input) {
-            if(input.textContent !== ''){
-                return false;
-            } else {
-                TTTCtrl.whichPlayer();
-                return true;
-            }
+        DOMArrayStrings: () => {
+            return DOMBoardArray;
         },
-        getInput: function() {
-            return {
-                one: document.getElementById(DOMstrings.one),
-                two: document.getElementById(DOMstrings.two),
-                three: document.getElementById(DOMstrings.three),
-                four: document.getElementById(DOMstrings.four),
-                five: document.getElementById(DOMstrings.five),
-                six: document.getElementById(DOMstrings.six),
-                seven: document.getElementById(DOMstrings.seven),
-                eight: document.getElementById(DOMstrings.eight),
-                nine: document.getElementById(DOMstrings.nine),
-                resetBtn: document.querySelector('.'+DOMstrings.resetBtn)
-            }
+        boardMovement: (domElem) => {
+            boardMovement(domElem);
         },
-        getDOMstrings: function() {
-            return DOMstrings;
-        },
-        boardStatus: function(input, player) {
-            if(this.getStatus(input)) {
-                input.textContent = player;
-            }
+        winnerUI: (player) => {
+            winnerUI(player);
         }
     };
 
 })(ticTacTouController);
 
-var controller = (function(UICtrl,TTTCtrl) {
+const controller = ( (UICtrl,TTTCtrl) => {
 
-    var setupEventListeners = function() {
-        var DOM = UICtrl.getDOMstrings();
-        var input = UICtrl.getInput();
-        var win = TTTCtrl.winStatus();
+    DOMArrayStrings = UICtrl.DOMArrayStrings();
 
-        input.one.addEventListener('click', function() {
+    const winerController = DOMArrayStrings.forEach((domElem, index) => {
+        document.getElementById(domElem).addEventListener('click', () => {
+            let win = TTTCtrl.win();
             if(!win) {
-                TTTCtrl.updateBoard(0);
-                UICtrl.boardStatus(input.one, TTTCtrl.player());
-                TTTCtrl.boardStatus();
-                win = TTTCtrl.winStatus();
-            }
-            
+                UICtrl.boardMovement(domElem);
+                TTTCtrl.boardUpdate(index);
+            } 
         });
-        input.two.addEventListener('click', function() {
-            if(!win) {
-                TTTCtrl.updateBoard(1);
-                UICtrl.boardStatus(input.two, TTTCtrl.player());
-                TTTCtrl.boardStatus();
-                win = TTTCtrl.winStatus();
-            }
-            
-        });
-        input.three.addEventListener('click', function() {
-            if(!win) {
-                TTTCtrl.updateBoard(2);
-                UICtrl.boardStatus(input.three, TTTCtrl.player());   
-                TTTCtrl.boardStatus();
-                win = TTTCtrl.winStatus();
-            }
-            
-        });
-        input.four.addEventListener('click', function() {
-            if(!win) {
-                TTTCtrl.updateBoard(3);
-                UICtrl.boardStatus(input.four, TTTCtrl.player());
-                TTTCtrl.boardStatus();
-                win = TTTCtrl.winStatus();
-            }
-            
-        });
-        input.five.addEventListener('click', function() {
-            if(!win) {
-                TTTCtrl.updateBoard(4);
-                UICtrl.boardStatus(input.five, TTTCtrl.player());
-                TTTCtrl.boardStatus();
-                win = TTTCtrl.winStatus();
-            }
-            
-        });
-        input.six.addEventListener('click', function() {
-            if(!win) {
-                TTTCtrl.updateBoard(5);
-                UICtrl.boardStatus(input.six, TTTCtrl.player());
-                TTTCtrl.boardStatus();
-                win = TTTCtrl.winStatus();
-            }
-            
-        });
-        input.seven.addEventListener('click', function() {
-            if(!win) {
-                TTTCtrl.updateBoard(6);
-                UICtrl.boardStatus(input.seven, TTTCtrl.player());  
-                TTTCtrl.boardStatus();
-                win = TTTCtrl.winStatus();
-            }
-             
-        });
-        input.eight.addEventListener('click', function() {
-            if(!win) {
-                TTTCtrl.updateBoard(7);
-                UICtrl.boardStatus(input.eight, TTTCtrl.player());
-                TTTCtrl.boardStatus();
-                win = TTTCtrl.winStatus();
-            }
-               
-        });
-        input.nine.addEventListener('click', function() {
-            if(!win) {
-                TTTCtrl.updateBoard(8);
-                UICtrl.boardStatus(input.nine, TTTCtrl.player());
-                TTTCtrl.boardStatus();
-                win = TTTCtrl.winStatus();
-            }
-            
-        });
+    });
 
+    setupEventListeners = () => {
+
+        document.querySelector('.tic-tac-tou').addEventListener('click', () =>{
+            let player = TTTCtrl.player();
+            let win = TTTCtrl.win();
+            if(!win) {
+                winerController;
+            } else {
+                UICtrl.winnerUI(player);
+            }
+            
+        });
+        
     };
 
     return {
-        init: function() {
-            console.log('App start');
+        init: () => {
+            console.log('App Start!');
             setupEventListeners();
         }
     }
-
-})(UIcontroller,ticTacTouController);
+})(UIcontroller, ticTacTouController);
 
 controller.init();
