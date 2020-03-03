@@ -31,14 +31,21 @@ table {
     text-align: center;
 }
 
-#btn-reset {
+.btn-res {
     border: none;
     padding: 10px;
     text-align: center;
-    color: #6E9FCC;
-    background-color: #223240;
     text-decoration: none;
     font-size: 120%;
+    color: #6E9FCC;
+    background-color: #223240;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-res:hover,
+.btn-res:active {
+    color: #223240;
+    background-color: #6E9FCC;
 }
 
 h1 {
@@ -91,6 +98,11 @@ h1 {
     width: 25%;
     text-align: center;
     text-transform: uppercase;
+}
+
+.unselected:hover,
+.unselected:active {
+    background-color: #22313f;
 }
 
 /* .vertical {
