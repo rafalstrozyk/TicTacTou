@@ -3,36 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <title>TicTacTou</title>
 </head>
 <body>
    
-    <h1>Tic Tac Tou</h1>
+    
+
+    <div class="header">
+        <h1>Tic Tac Tou</h1>
+        <button id="btn-reset">Reser</button>
+    </div>
 
     <table class="tic-tac-tou">
         <tr>
-            <td class="horizontal" id="one"></td>
-            <td class="vertical horizontal" id="two"></td>
-            <td class="horizontal" id="three"></td>
+            <td class="unselected" id="one"></td>
+            <td class="unselected" id="two"></td>
+            <td class="unselected" id="three"></td>
         </tr>
         <tr>
-            <td class="horizontal" id="four"></td>
-            <td class="vertical horizontal" id="five"></td>
-            <td class="horizontal" id="six"></td>
+            <td class="unselected" id="four"></td>
+            <td class="unselected" id="five"></td>
+            <td class="unselected" id="six"></td>
         </tr>
         <tr>
-            <td class="" id="seven"></td>
-            <td class="vertical" id="eight"></td>
-            <td class="" id="nine"></td>
+            <td class="unselected" id="seven"></td>
+            <td class="unselected" id="eight"></td>
+            <td class="unselected" id="nine"></td>
         </tr>
     </table>
 
-    <h3>Kolej: <em id="which-player">X</em></h3>
+    <h3 class="who-play">:Kolej: <em class="lef" id="which-player">X</em></h3>
 
     <h3 id="winner"></h3>
-
-    <button id="btn-reset">Reser</button>
 
     <script src="app.js"></script>
 </body>

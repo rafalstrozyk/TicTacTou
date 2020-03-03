@@ -5,8 +5,13 @@
 
 html {
     font-size: 20px;
-    font-weight: 300;
+    font-weight: 400;
     box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+    background: #283c86;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #45a247, #283c86);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #45a247, #283c86); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 }
 
 td {
@@ -16,15 +21,83 @@ td {
 }
 
 table {
+    margin: 50px auto;
+    text-align: center;
+    background-color: rgb(184, 184, 184);
+}
+
+.header {
     margin: auto;
     text-align: center;
 }
 
-.vertical {
+#btn-reset {
+    border: none;
+    padding: 10px;
+    text-align: center;
+    color: #6E9FCC;
+    background-color: #223240;
+    text-decoration: none;
+    font-size: 120%;
+}
+
+h1 {
+    margin: 25px auto;
+    text-align: center;
+    font-size: 300%;
+    color: #22313f;
+}
+
+.unselected {
+    background-color: #7b7e80;
+    color: #6E9FCC
+}
+
+.selected {
+    background-color: #6E9FCC;
+    color: #22313f;
+}
+
+.winner-board {
+    background-color: #f22613;
+    color: white;
+}
+
+#winner {
+    font-size: 220%;
+    color: #f22613;
+    text-transform: uppercase;
+    margin: auto;
+    text-align: center;
+}
+
+#which-player {
+    color: #f22613;
+}
+
+.lef {
+    float: left;
+} 
+
+.right {
+    float: right;
+}
+
+.who-play {
+    margin: auto;
+    padding: 20px; 
+    background-color: #6E9FCC;
+    color: #22313f;
+    width: 25%;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+/* .vertical {
     border-left: 1px solid black;
     border-right: 1px solid black;
 }
 
 .horizontal {
     border-bottom: 1px solid black;
-}
+} */
